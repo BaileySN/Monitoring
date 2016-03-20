@@ -4,6 +4,10 @@ Dieses kleine Programm prüft Täglich die Kapazität der Platten.
 
 Falls eine Platte über den eingestellten Wert kommt, schickt es eine E-Mail an den Admin.
 
+## Benötigte Packete
+* python3-psutil (derzeit geht auch noch python-psutil)
+* python3 (derzeit geht auch noch pyhton2)
+
 
 ## config.py
 
@@ -29,4 +33,25 @@ Folgende Werte sollten eingestellt und geprüft werden.
 * E-Mail Server
     
     SMTPSERVER = "127.0.0.1"
+
+
+## cronjob einrichten
+
+Das Programm können wir mit dem Befehl im Programmordner starten:
+
+''python3 program.py'' (derzeit geht auch noch mit dem Aufruf Python)
+
+Dabei prüft es ob die Laufwerke alle unter dem eingestelltem Wert sind.
+Testweise ist mir Aufgefallen, dass die Berechnung ein wenig von der Systemansicht abweicht.
+Somit kann es sein falls mit ''df -h'' eigentlich 81% stehen würden es aber mit dem Programm nur 78% oder 79% ermittelt werden.
+
+Sollten die Tests gut laufen, kann man es derzeit direct in den Cronjob einbauen.
+Beispiel.: (Ich habe das packet mit git unter ''/opt'' runtergeladen und Konfiguriert, der Pfad lautet somit ''/opt/Monitoring/'').
+
+30 6    * * *   root    cd /opt/Monitoring &&python3 program.py <oder python program.py>
+
+Man sollte statt den Benutzer Root einen anderen nehmen, der dies Ausführen darf.
+
+Achtung: Dieses Programm ist noch in der Entwicklung, somit bitte gut Testen!
+
 
