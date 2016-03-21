@@ -34,7 +34,7 @@ def disk_space_percent(path):
     usage = psutil.disk_usage(path)
     psf = float(usage.percent) + float(5)
     if int(psf) > int(DSPACEPERCENT):
-        return float(usage.percent)
+        return float(psf)
     else:
         return float(200)
 
