@@ -32,7 +32,8 @@ def bytes2human(n):
 
 def disk_space_percent(path):
     usage = psutil.disk_usage(path)
-    if int(usage.percent) > int(DSPACEPERCENT):
+    psf = float(usage.percent) + float(5)
+    if int(psf) > int(DSPACEPERCENT):
         return float(usage.percent)
     else:
         return float(200)
