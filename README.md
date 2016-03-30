@@ -34,6 +34,10 @@ Folgende Werte sollten eingestellt und geprüft werden.
     
     SMTPSERVER = "127.0.0.1"
 
+Ab Version 0.2 muss folgendes in der config.py hinzugefügt werden.
+
+    SMTP_SSL = False (Falls SSL am Mailserver verwendet wird mit TRUE ersetzen)
+    USE_AUTH = False (Falls Authentifizierung am Mailserver verwendet wird mit TRUE ersetzen)
 
 ## cronjob einrichten
 
