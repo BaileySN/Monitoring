@@ -9,6 +9,6 @@ EMAIL_SENDER = "root"
 EMAIL_RECIPIENT = "guenter"
 EMAIL_LINK = ""
 SMTPSERVER = "127.0.0.1"
+SMTP_SSL = "yes"
 SMTPUSER = ""
 SMTPPASSWORD = ""
-

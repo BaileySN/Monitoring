@@ -3,7 +3,7 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from conf import EMAIL_RECIPIENT, EMAIL_SENDER, SMTPSERVER, SMTPUSER, SMTPPASSWORD, DSPACEPERCENT
+from conf import EMAIL_RECIPIENT, EMAIL_SENDER, SMTPSERVER, SMTPUSER, SMTPPASSWORD, DSPACEPERCENT, SMTP_SSL
 from bin import hostinfo
 
 
@@ -49,5 +49,14 @@ Info:<br />
 
         # Send the message via local SMTP server.
         s = smtplib.SMTP(SMTPSERVER)
-        s.sendmail(EMAIL_SENDER, EMAIL_RECIPIENT, msg.as_string())
+        s.ehlo()
+        if SMTP_SSL:
+            s.starttls()
+        s.login(SMTPUSER, SMTPPASSWORD)
+        try:
+            s.sendmail(EMAIL_SENDER, EMAIL_RECIPIENT, msg.as_string())
+            print("email sent")
+        except:
+            print("error sending email")
+
         s.quit()
