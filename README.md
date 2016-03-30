@@ -55,3 +55,9 @@ Man sollte statt den Benutzer Root einen anderen nehmen, der dies Ausführen dar
 Achtung: Dieses Programm ist noch in der Entwicklung, somit bitte gut Testen!
 
 
+## Hilfe
+
+Die Hilfe Funktion kann man wie folgt öffnen.
+
+''python3 program.py --help''
+
