@@ -6,6 +6,7 @@ import os
 import psutil
 from conf import DSPACEPERCENT
 from bin import mailsend
+from optparse import OptionParser
 
 
 def testmail(msg):
@@ -50,7 +51,7 @@ def disk_usage(method, path):
     return var
 
 
-def main():
+def df_check():
 
     send = 0
     report = []
@@ -91,6 +92,24 @@ def main():
         mailsend.emailsend(report)
 
     print("Fertig")
+
+
+def main():
+    usage = "usage: %prog options"
+    parser = OptionParser(usage=usage)
+    parser.add_option("--testmail", action="store_true", default=False,
+                      dest="testmail", help="Sending Testmail.")
+    parser.add_option("--df_check", action="store_true", default=False,
+                      dest="df_check", help="check disk usage and send mail if goes over %s%%" %(DSPACEPERCENT))
+    (options, args) = parser.parse_args()
+
+    if options.testmail:
+        testmail("This is a test Report, for checking the Mail Settings.")
+        exit(2)
+
+    elif not options.testmail:
+        df_check()
+        exit(2)
 
 
 if __name__ == '__main__':

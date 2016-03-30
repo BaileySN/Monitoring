@@ -3,7 +3,7 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from conf import EMAIL_RECIPIENT, EMAIL_SENDER, SMTPSERVER, SMTPUSER, SMTPPASSWORD, DSPACEPERCENT, SMTP_SSL
+from conf import EMAIL_RECIPIENT, EMAIL_SENDER, SMTPSERVER, SMTPUSER, SMTPPASSWORD, DSPACEPERCENT, SMTP_SSL, USE_AUTH
 from bin import hostinfo
 
 
@@ -52,7 +52,10 @@ Info:<br />
         s.ehlo()
         if SMTP_SSL:
             s.starttls()
-        s.login(SMTPUSER, SMTPPASSWORD)
+
+        if USE_AUTH:
+            s.login(SMTPUSER, SMTPPASSWORD)
+
         try:
             s.sendmail(EMAIL_SENDER, EMAIL_RECIPIENT, msg.as_string())
             print("email sent")
