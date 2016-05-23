@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import smtplib
+import smtplib, ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from conf import EMAIL_RECIPIENT, EMAIL_SENDER, SMTPSERVER, SMTPUSER, SMTPPASSWORD, DSPACEPERCENT, SMTP_SSL, USE_AUTH
+from conf import EMAIL_RECIPIENT, EMAIL_SENDER, SMTPSERVER, SMTPUSER, SMTPPASSWORD, DSPACEPERCENT, SMTP_SSL, USE_AUTH, SMTP_PORT
 from bin import hostinfo
 
 
@@ -47,17 +47,19 @@ Info:<br />
         msg.attach(part1)
         msg.attach(part2)
 
-        # Send the message via local SMTP server.
-        s = smtplib.SMTP(SMTPSERVER)
-        s.ehlo()
         if SMTP_SSL:
-            s.starttls()
+            # send the message over SSL/TLS
+            s = smtplib.SMTP_SSL(host=SMTPSERVER, port=SMTP_PORT)
+        else:
+            s = smtplib.SMTP(host=SMTPSERVER, port=SMTP_PORT)
+
+        s.ehlo()
 
         if USE_AUTH:
             s.login(SMTPUSER, SMTPPASSWORD)
 
         try:
-            s.sendmail(EMAIL_SENDER, EMAIL_RECIPIENT, msg.as_string())
+            s.sendmail(EMAIL_SENDER, [EMAIL_RECIPIENT], msg.as_string())
             print("email sent")
         except:
             print("error sending email")
