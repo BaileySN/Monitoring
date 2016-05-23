@@ -27,8 +27,8 @@ from optparse import OptionParser
 
 
 def testmail(msg):
-    mailsend.emailsend(msg)
     print("sending Testmail...")
+    mailsend.emailsend(msg)
 
 
 def bytes2human(n):
