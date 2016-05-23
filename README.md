@@ -15,6 +15,8 @@ Die Konfiguration findet in der config.py statt conf/config.py.
 
 Beim ersten lauf sollte das Template config.py.orig nach config.py umbenannt werden.
 
+Bei Updates sollte man die Werte config.py.orig und config.py vergleichen. (da derzeit nur die config.py.orig erweitert wird)
+
 Folgende Werte sollten eingestellt und geprüft werden.
 
 
@@ -38,6 +40,10 @@ Ab Version 0.2 muss folgendes in der config.py hinzugefügt werden.
 
     SMTP_SSL = False (Falls SSL am Mailserver verwendet wird mit TRUE ersetzen)
     USE_AUTH = False (Falls Authentifizierung am Mailserver verwendet wird mit TRUE ersetzen)
+
+Ab Version 0.4a kommt noch folgendes hinzu.
+
+    SMTP_PORT = 465 (Oder falls kein SSL/TLS Port 25)
 
 ## cronjob einrichten
 
