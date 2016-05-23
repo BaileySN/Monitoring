@@ -107,7 +107,7 @@ def df_check():
     if send != 0:
         mailsend.emailsend(report)
 
-    print("Fertig")
+    # print("Finish")
 
 
 def main():
