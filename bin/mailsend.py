@@ -24,7 +24,7 @@ class emailsend(object):
         msg['To'] = EMAIL_RECIPIENT
 
         # Create the body of the message (a plain-text and an HTML version).
-        text = "Platte am Server %s ist ueber %s%% voll.\n Adresse: %s \n Info: %s" %(hostname, str(DSPACEPERCENT), ipaddr, report)
+        text = "Platte am Server %s ist ueber %s%% voll.\n Adresse: %s \n Info: %s" %(hostname, str(DSPACEPERCENT), ipaddr, ''.join(report))
         html = """
 <html>
 <head></head>
@@ -35,7 +35,7 @@ Info:<br />
 %s
 </p>
 </body>
-</html>""" %(hostname, str(DSPACEPERCENT), ipaddr, report)
+</html>""" %(hostname, str(DSPACEPERCENT), ipaddr, ''.join(report))
 
         # Record the MIME types of both parts - text/plain and text/html.
         part1 = MIMEText(text, 'plain')

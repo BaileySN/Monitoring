@@ -73,7 +73,7 @@ def df_check():
     send = 0
     report = []
     templ = "%-17s %8s %8s %8s %5s%% %9s  %s"
-    report.append(templ % ("Device", "Total", "Used", "Free", "Use ", "Type", "Mount")+"\n")
+    report.append(templ % ("Device", "Total", "Used", "Free", "Use ", "Type", "Mount")+"<br />")
     print(templ % ("Device", "Total", "Used", "Free", "Use ", "Type", "Mount"))
 
     for part in psutil.disk_partitions(all=False):
@@ -85,7 +85,7 @@ def df_check():
 
         if df != float(200):
             send += 1
-            print("Partition fast voll: "+part.device+" Mountpoint: "+part.mountpoint+" ist "+str(df)+"% voll")
+            # print("Partition fast voll: "+part.device+" Mountpoint: "+part.mountpoint+" ist "+str(df)+"% voll")
             print(templ % (
                 part.device,
                 disk_usage("total", part.mountpoint),
@@ -102,8 +102,7 @@ def df_check():
                 disk_usage("free", part.mountpoint),
                 float(df),
                 part.fstype,
-                part.mountpoint)+"\n")
-
+                part.mountpoint)+"<br />")
 
     if send != 0:
         mailsend.emailsend(report)
