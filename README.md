@@ -58,7 +58,7 @@ Somit kann es sein falls mit ''df -h'' eigentlich 81% stehen würden es aber mit
 Sollten die Tests gut laufen, kann man es derzeit direct in den Cronjob einbauen.
 Beispiel.: (Ich habe das packet mit git unter ''/opt'' runtergeladen und Konfiguriert, der Pfad lautet somit ''/opt/Monitoring/'').
 
-30 6    * * *   root    cd /opt/Monitoring &&python3 program.py <oder python program.py>
+30 6    * * *   root    cd /opt/Monitoring &&python3 program.py > /dev/null 2>&1 <oder python program.py>
 
 Man sollte statt den Benutzer Root einen anderen nehmen, der dies Ausführen darf.
 
