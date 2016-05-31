@@ -4,6 +4,8 @@ Dieses kleine Programm prüft Täglich die Kapazität der Platten.
 
 Falls eine Platte über den eingestellten Wert kommt, schickt es eine E-Mail an den Admin.
 
+Mit ```python3 program.py --help``` bekommt man eine Hilfe- und Befehlsübersicht angezeigt.
+
 ## Benötigte Pakete
 * python3-psutil (derzeit geht auch noch python-psutil)
 * python3 (derzeit geht auch noch pyhton2)
