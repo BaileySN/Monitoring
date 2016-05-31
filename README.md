@@ -4,7 +4,7 @@ Dieses kleine Programm prüft Täglich die Kapazität der Platten.
 
 Falls eine Platte über den eingestellten Wert kommt, schickt es eine E-Mail an den Admin.
 
-## Benötigte Packete
+## Benötigte Pakete
 * python3-psutil (derzeit geht auch noch python-psutil)
 * python3 (derzeit geht auch noch pyhton2)
 
@@ -56,7 +56,7 @@ Testweise ist mir Aufgefallen, dass die Berechnung ein wenig von der Systemansic
 Somit kann es sein falls mit ''df -h'' eigentlich 81% stehen würden es aber mit dem Programm nur 78% oder 79% ermittelt werden.
 
 Sollten die Tests gut laufen, kann man es derzeit direct in den Cronjob einbauen.
-Beispiel.: (Ich habe das packet mit git unter ''/opt'' runtergeladen und Konfiguriert, der Pfad lautet somit ''/opt/Monitoring/'').
+Beispiel.: (Ich habe das Paket mit git unter ''/opt'' runtergeladen und Konfiguriert, der Pfad lautet somit ''/opt/Monitoring/'').
 
 30 6    * * *   root    cd /opt/Monitoring &&python3 program.py > /dev/null 2>&1 <oder python program.py>
 
