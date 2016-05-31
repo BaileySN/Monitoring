@@ -50,9 +50,9 @@ def bytes2human(n):
 
 def disk_space_percent(path):
     usage = psutil.disk_usage(path)
-    psf = float(usage.percent) + float(5)
+    psf = float(usage.percent) * float(1.06)
     if int(psf) > int(DSPACEPERCENT):
-        return float(psf)
+        return '%3.2f' %(psf)
     else:
         return float(200)
 
@@ -109,6 +109,27 @@ def df_check():
 
     # print("Finish")
 
+def df_report():
+
+    templ = "%-17s %8s %8s %8s %5s%% %9s  %s"
+    print(templ % ("Device", "Total", "Used", "Free", "Use ", "Type", "Mount"))
+
+    for part in psutil.disk_partitions(all=False):
+        if os.name == 'nt':
+            if 'cdrom' in part.opts or part.fstype == '':
+                continue
+
+        df = disk_space_percent(part.mountpoint)
+
+        if df != float(200):
+            print(templ % (
+                part.device,
+                disk_usage("total", part.mountpoint),
+                disk_usage("used", part.mountpoint),
+                disk_usage("free", part.mountpoint),
+                float(df),
+                part.fstype,
+                part.mountpoint))
 
 def main():
     usage = "usage: %prog options"
@@ -117,13 +138,17 @@ def main():
                       dest="testmail", help="Sending Testmail.")
     parser.add_option("--df_check", action="store_true", default=False,
                       dest="df_check", help="check disk usage and send mail if goes over %s%%" %(DSPACEPERCENT))
+    parser.add_option("--report", action="store_true", default=False,
+                      dest="report", help="check disk usage and print if goes over %s%%" %(DSPACEPERCENT))
     (options, args) = parser.parse_args()
 
     if options.testmail:
         testmail("This is a test Report, for checking the Mail Settings.")
         exit(2)
-
-    elif not options.testmail:
+    elif options.report:
+        df_report()
+        exit(2)
+    else:
         df_check()
         exit(2)
 
