@@ -3,6 +3,10 @@
 
 # maximal used disk space in percent
 DSPACEPERCENT = 80
+# Percent in decimal to minimize the difference between this program and df -h
+# 1.01 = 1 Percent
+# 1.10 = 10 Percent
+PERCENT_DEC = 1.01
 
 # Mailserver settings
 EMAIL_SENDER = "root"

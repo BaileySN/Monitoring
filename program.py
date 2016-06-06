@@ -21,9 +21,10 @@
 import sys
 import os
 import psutil
-from conf import DSPACEPERCENT
+from conf import DSPACEPERCENT, PERCENT_DEC
 from bin import mailsend
 from optparse import OptionParser
+__version__ = "0.5a"
 
 
 def testmail(msg):
@@ -50,7 +51,7 @@ def bytes2human(n):
 
 def disk_space_percent(path):
     usage = psutil.disk_usage(path)
-    psf = float(usage.percent) * float(1.06)
+    psf = float(usage.percent) * float(PERCENT_DEC)
     if int(psf) > int(DSPACEPERCENT):
         return '%3.2f' %(psf)
     else:
@@ -132,7 +133,7 @@ def df_report():
                 part.mountpoint))
 
 def main():
-    usage = "usage: %prog options"
+    usage = "HDD Space Monitoring v%s" %(__version__)
     parser = OptionParser(usage=usage)
     parser.add_option("--testmail", action="store_true", default=False,
                       dest="testmail", help="Sending Testmail.")

@@ -47,6 +47,13 @@ Ab Version 0.4a kommt noch folgendes hinzu.
 
     SMTP_PORT = 465 (Oder falls kein SSL/TLS Port 25)
 
+Ab Version 0.5a in der config folgendes hinzufügen:
+    
+    PERCENT_DEC = 1.01
+
+Dieser Wert (Prozent in Dezimal) wird verwendet um den Wert in Prozent bei df -h mit dem Wert vom diesem Programm anzugleichen.
+
+
 ## cronjob einrichten
 
 Das Programm können wir mit dem Befehl im Programmordner starten:
