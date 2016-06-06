@@ -24,7 +24,7 @@ import psutil
 from conf import DSPACEPERCENT, PERCENT_DEC
 from bin import mailsend
 from optparse import OptionParser
-__version__ = "0.5a"
+__version__ = "0.5b"
 
 
 def testmail(msg):
@@ -52,8 +52,12 @@ def bytes2human(n):
 def disk_space_percent(path):
     usage = psutil.disk_usage(path)
     psf = float(usage.percent) * float(PERCENT_DEC)
-    if int(psf) > int(DSPACEPERCENT):
-        return '%3.2f' %(psf)
+    return psf
+
+
+def to_report(value_in_percent):
+    if int(value_in_percent) > int(DSPACEPERCENT):
+        return '%3.2f' %(value_in_percent)
     else:
         return float(200)
 
@@ -82,11 +86,9 @@ def df_check():
             if 'cdrom' in part.opts or part.fstype == '':
                 continue
 
-        df = disk_space_percent(part.mountpoint)
-
+        df = to_report(disk_space_percent(part.mountpoint))
         if df != float(200):
             send += 1
-            # print("Partition fast voll: "+part.device+" Mountpoint: "+part.mountpoint+" ist "+str(df)+"% voll")
             print(templ % (
                 part.device,
                 disk_usage("total", part.mountpoint),
@@ -108,9 +110,7 @@ def df_check():
     if send != 0:
         mailsend.emailsend(report)
 
-    # print("Finish")
-
-def df_report():
+def df_report(runmode=None):
 
     templ = "%-17s %8s %8s %8s %5s%% %9s  %s"
     print(templ % ("Device", "Total", "Used", "Free", "Use ", "Type", "Mount"))
@@ -121,16 +121,27 @@ def df_report():
                 continue
 
         df = disk_space_percent(part.mountpoint)
-
-        if df != float(200):
+        if runmode == "dryrun":
+            dfa = to_report(disk_space_percent(part.mountpoint))
+            if dfa != float(200):
+                print(templ % (
+                    part.device,
+                    disk_usage("total", part.mountpoint),
+                    disk_usage("used", part.mountpoint),
+                    disk_usage("free", part.mountpoint),
+                    float(dfa),
+                    part.fstype,
+                    part.mountpoint))
+        else:
             print(templ % (
-                part.device,
-                disk_usage("total", part.mountpoint),
-                disk_usage("used", part.mountpoint),
-                disk_usage("free", part.mountpoint),
-                float(df),
-                part.fstype,
-                part.mountpoint))
+                    part.device,
+                    disk_usage("total", part.mountpoint),
+                    disk_usage("used", part.mountpoint),
+                    disk_usage("free", part.mountpoint),
+                    '%3.2f' %(df),
+                    part.fstype,
+                    part.mountpoint))
+
 
 def main():
     usage = "HDD Space Monitoring v%s" %(__version__)
@@ -140,15 +151,21 @@ def main():
     parser.add_option("--df_check", action="store_true", default=False,
                       dest="df_check", help="check disk usage and send mail if goes over %s%%" %(DSPACEPERCENT))
     parser.add_option("--report", action="store_true", default=False,
-                      dest="report", help="check disk usage and print if goes over %s%%" %(DSPACEPERCENT))
+                      dest="report", help="check disk usage and print. With option --dry-run prints only if goes over %s%%" %(DSPACEPERCENT))
+    parser.add_option("--dry-run", action="store_true", default=False,
+                      dest="dryrun", help="View report with regard to the limit")
     (options, args) = parser.parse_args()
 
     if options.testmail:
         testmail("This is a test Report, for checking the Mail Settings.")
         exit(2)
     elif options.report:
-        df_report()
-        exit(2)
+        if options.dryrun:
+            df_report("dryrun")
+            exit(2)
+        else:
+            df_report()
+            exit(2)
     else:
         df_check()
         exit(2)
